@@ -23,6 +23,7 @@ const Filter = ({ categories }) => {
         setSearchTerm(currentSearchTerm);
     }, [searchParams]);
 
+    // Handle search term change
     useEffect(() => { 
         const handler = setTimeout(() => {
             if (searchTerm) {

@@ -1,5 +1,6 @@
 import api from "../../api/api"
 
+// Action creators
 export const fetchProducts = (queryString) => async (dispatch) => {
     try {
         dispatch({ type: "IS_FETCHING" });
@@ -18,6 +19,7 @@ export const fetchProducts = (queryString) => async (dispatch) => {
         console.log(error);
         dispatch({ 
             type: "IS_ERROR",
+            // Optianal Chaining,if not found then it will return undefined, no error
             payload: error?.response?.data?.message || "Failed to fetch products",
          });
     }

@@ -10,10 +10,11 @@ const useProductFilter = () => {
     useEffect(() => {
         const params = new URLSearchParams();
 
+        // In js, 0, null is falsy
+        // Set page number to 0 if it is not present in the URL
         const currentPage = searchParams.get("page")
             ? Number(searchParams.get("page"))
             : 1;
-
         params.set("pageNumber", currentPage - 1);
 
         const sortOrder = searchParams.get("sortby") || "asc";
