@@ -25,7 +25,6 @@ export const fetchProducts = (queryString) => async (dispatch) => {
     }
 };
 
-
 export const fetchCategories = () => async (dispatch) => {
     try {
         dispatch({ type: "CATEGORY_LOADER" });
@@ -49,7 +48,6 @@ export const fetchCategories = () => async (dispatch) => {
     }
 };
 
-
 export const addToCart = (data, qty = 1, toast) => 
     (dispatch, getState) => {
         // Find the product
@@ -71,7 +69,6 @@ export const addToCart = (data, qty = 1, toast) =>
             toast.error("Out of stock");
         }
 };
-
 
 export const increaseCartQuantity = 
     (data, toast, currentQuantity, setCurrentQuantity) =>
@@ -100,8 +97,6 @@ export const increaseCartQuantity =
 
     };
 
-
-
 export const decreaseCartQuantity = 
     (data, newQuantity) => (dispatch, getState) => {
         dispatch({
@@ -116,3 +111,44 @@ export const removeFromCart =  (data, toast) => (dispatch, getState) => {
     toast.success(`${data.productName} removed from cart`);
     localStorage.setItem("cartItems", JSON.stringify(getState().carts.cart));
 }
+
+export const authenticateSignInUser = 
+    (formData, toast, reset, navigate, setLoader) => async (dispatch) => {
+        try {
+            setLoader(true);
+            const { data } = await api.post("/auth/signin", formData);
+            dispatch({ type: "LOGIN_USER", payload: data });
+            localStorage.setItem("auth", JSON.stringify(data));
+            toast.success("Login Successfully");
+            reset();
+            navigate("/");
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.response?.data?.message || "Failed to login");
+        } finally {
+            setLoader(false);
+        } 
+}
+
+export const registerNewUser 
+    = (sendData, toast, reset, navigate, setLoader) => async (dispatch) => {
+        try {
+            setLoader(true);
+            const { data } = await api.post("/auth/signup", sendData);
+            reset();
+            toast.success(data?.message || "User Registered Successfully");
+            navigate("/login");
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.response?.data?.message || error?.response?.data?.password || "Internal Server Error");
+        } finally {
+            setLoader(false);
+        }
+};
+
+
+export const logOutUser = (navigate) => (dispatch) => {
+    dispatch({ type:"LOG_OUT" });
+    localStorage.removeItem("auth");
+    navigate("/login");
+};

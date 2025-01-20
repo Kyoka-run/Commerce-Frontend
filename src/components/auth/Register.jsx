@@ -1,17 +1,17 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useForm } from "react-hook-form";
-import { AiOutlineLogin } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
-import InputField from "../shared/InputField";
-import { authenticateSignInUser } from "../../store/actions";
-import toast from "react-hot-toast";
-import Spinners from "../shared/Spinners";
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form';
+import { FaUserPlus } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
+import InputField from '../shared/InputField';
+import { useDispatch } from 'react-redux';
+import { registerNewUser } from '../../store/actions';
+import toast from 'react-hot-toast';
+import Spinners from '../shared/Spinners';
 
-const Login = () => {
+const Register = () => {
     const navigate = useNavigate();
-    const [loader, setLoader] = useState(false);
     const dispatch = useDispatch();
+    const [loader, setLoader] = useState(false);
 
     const {
         register,
@@ -19,25 +19,23 @@ const Login = () => {
         reset,
         formState: {errors},
     } = useForm({
-        // Valid when submit
         mode: "onSubmit",
     });
 
-    const loginHandler = async (data) => {
-        console.log("Login Click");
-        // reset form react-hook-form to reset form after submit
-        dispatch(authenticateSignInUser(data, toast, reset, navigate, setLoader));
-    };
+    const registerHandler = async (data) => {
+        console.log("Register Click");
+        dispatch(registerNewUser(data, toast, reset, navigate, setLoader));
+     };
 
     return (
         <div className="min-h-[calc(100vh-64px)] flex justify-center items-center">
             <form
-                onSubmit={handleSubmit(loginHandler)}
+                onSubmit={handleSubmit(registerHandler)}
                 className="sm:w-[450px] w-[360px] shadow-custom py-8 sm:px-8 px-4 rounded-md">
                     <div className="flex flex-col items-center justify-center space-y-4">
-                        <AiOutlineLogin className="text-slate-800 text-5xl"/>
+                        <FaUserPlus className="text-slate-800 text-5xl"/>
                         <h1 className="text-slate-800 text-center font-montserrat lg:text-3xl text-2xl font-bold">
-                            Login Here
+                            Register Here
                         </h1>
                     </div>
             <hr className="mt-2 mb-5 text-black" />
@@ -54,9 +52,21 @@ const Login = () => {
                     />
 
                 <InputField
+                    label="Email"
+                    required
+                    id="email"
+                    type="email"
+                    message="*Email is required"
+                    placeholder="Enter your email"
+                    register={register}
+                    errors={errors}
+                    />
+
+                <InputField
                     label="Password"
                     required
                     id="password"
+                    min={6}
                     type="password"
                     message="*Password is required"
                     placeholder="Enter your password"
@@ -66,7 +76,6 @@ const Login = () => {
             </div>
 
             <button
-                // Prevent multiple clicks
                 disabled={loader}
                 className="bg-button-gradient flex gap-2 items-center justify-center font-semibold text-white w-full py-2 hover:text-slate-400 transition-colors duration-100 rounded-sm my-3"
                 type="submit">
@@ -75,20 +84,20 @@ const Login = () => {
                     <Spinners /> Loading...
                     </>
                 ) : (
-                    <>Login</>
+                    <>Register</>
                 )}
             </button>
 
             <p className="text-center text-sm text-slate-700 mt-6">
-              Don't have an account?
+              Already have an account?
               <Link
                 className="font-semibold underline hover:text-black"
-                to="/register">
-              <span> SignUp</span></Link>  
+                to="/login">
+              <span> Login</span></Link>  
             </p>
             </form>
         </div>
     );
 }
 
-export default Login;
+export default Register

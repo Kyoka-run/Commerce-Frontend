@@ -15,6 +15,7 @@ const InputField = ({
         <div className="flex flex-col gap-1 w-full">
             <label
                 htmlFor="id"
+                // ${} inserte js in string
                 className={`${
                     className ? className : ""
                 } font-semibold text-sm text-slate-800`}>
