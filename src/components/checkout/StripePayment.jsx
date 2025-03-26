@@ -29,13 +29,13 @@ const StripePayment = () => {
   }
 
   return (
-    <>
+    <div>
       {clientSecret && (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
           <PaymentForm clientSecret={clientSecret} totalPrice={totalPrice} />
         </Elements>
       )}
-    </>
+    </div>
   )
 }
 

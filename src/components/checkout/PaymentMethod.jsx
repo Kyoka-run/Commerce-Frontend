@@ -26,26 +26,29 @@ const PaymentMethod = () => {
   }
 
   return (
-    <div className='max-w-md mx-auto p-5 bg-white shadow-md rounded-lg mt-16 border'>
-      <h1 className='text-2xl font-semibold mb-4'>Select Payment Method</h1>
-      <FormControl>
+    <div className='max-w-md mx-auto p-5 bg-white shadow-md rounded-lg mt-16 border' data-testid="payment-method-container">
+      <h1 className='text-2xl font-semibold mb-4' data-testid="payment-method-heading">Select Payment Method</h1>
+      <FormControl data-testid="payment-method-form">
         <RadioGroup
           aria-label="payment method"
           name="paymentMethod"
           value={paymentMethod}
           onChange={(e) => paymentMethodHandler(e.target.value)}
+          data-testid="payment-method-radio-group"
         >
         <FormControlLabel 
             value="Stripe" 
             control={<Radio color='primary' />} 
             label="Stripe" 
-            className='text-gray-700'/>
+            className='text-gray-700'
+            data-testid="payment-method-stripe"/>
 
         <FormControlLabel 
             value="Paypal" 
             control={<Radio color='primary' />} 
             label="Paypal" 
-            className='text-gray-700'/>
+            className='text-gray-700'
+            data-testid="payment-method-paypal"/>
         </RadioGroup>
       </FormControl>
     </div>
