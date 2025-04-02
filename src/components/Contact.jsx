@@ -60,17 +60,17 @@ const Contact = () => {
           <div className="flex flex-col items-center space-y-2 mt-4">
             <div className="flex items-center" data-testid="phone-info">
               <FaPhone className="text-blue-500 mr-2" />
-              <span className="text-gray-600">+4 8961 944 149</span>
+              <span className="text-gray-600">+353 87 123 4567</span>
             </div>
 
             <div className="flex items-center" data-testid="email-info">
               <FaEnvelope className="text-blue-500 mr-2" />
-              <span className="text-gray-600">embarkxofficial@gmail.com</span>
+              <span className="text-gray-600">genwei74022@gmail.com</span>
             </div>
 
             <div className="flex items-center" data-testid="address-info">
               <FaMapMarkedAlt className="text-blue-500 mr-2" />
-              <span className="text-gray-600">123 Main, Town, USA</span>
+              <span className="text-gray-600">123 Street, Dublin, Ireland</span>
             </div>
           </div>
         </div>

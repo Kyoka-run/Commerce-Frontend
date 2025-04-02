@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './App.css'
 import Products from './components/products/Products'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
@@ -13,6 +13,8 @@ import PrivateRoute from './components/PrivateRoute'
 import Register from './components/auth/Register'
 import Checkout from './components/checkout/Checkout'
 import PaymentConfirmation from './components/checkout/PaymentConfirmation'
+import UserProfile from './components/user/UserProfile'
+import UserOrders from './components/user/UserOrders'
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
           <Route path='/' element={<PrivateRoute />}>
             <Route path='/checkout' element={ <Checkout />}/>
             <Route path='/order-confirm' element={ <PaymentConfirmation />}/>
+            <Route path='/profile' element={ <UserProfile />}/>
+            <Route path='/profile/orders' element={ <UserOrders />}/>
           </Route>
 
           <Route path='/' element={<PrivateRoute publicPage />}>

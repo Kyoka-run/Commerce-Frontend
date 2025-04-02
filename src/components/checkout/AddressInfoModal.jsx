@@ -26,4 +26,4 @@ const AddressInfoModal = ({ open, setOpen, children }) => {
   );
 }
 
-export default AddressInfoModal
+export default AddressInfoModal;
