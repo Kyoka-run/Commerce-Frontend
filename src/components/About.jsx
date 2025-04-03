@@ -2,7 +2,7 @@ import ProductCard from "./shared/ProductCard";
 
 const products = [
   {
-    image: "https://embarkx.com/sample/placeholder.png",
+    image: "https://images.pexels.com/photos/29020349/pexels-photo-29020349/free-photo-of-modern-smartphone-on-wooden-surface.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     productName: "iPhone 13 Pro Max",
     description:
       "The iPhone 13 Pro Max offers exceptional performance with its A15 Bionic chip, stunning Super Retina XDR display, and advanced camera features for breathtaking photos.",
@@ -10,7 +10,7 @@ const products = [
     price: 780,
   },
   {
-    image: "https://embarkx.com/sample/placeholder.png",
+    image: "https://files.refurbed.com/ii/samsung-galaxy-s21-5g-1618197343.jpg?t=fitdesign&h=600&w=800&t=convert&f=webp",
     productName: "Samsung Galaxy S21",
     description:
       "Experience the brilliance of the Samsung Galaxy S21 with its vibrant AMOLED display, powerful camera, and sleek design that fits perfectly in your hand.",
@@ -18,7 +18,7 @@ const products = [
     price: 799,
   },
   {
-    image: "https://embarkx.com/sample/placeholder.png",
+    image: "https://caseface.ie/wp-content/uploads/silicone-Google-Pixel-6-case-blue.png",
     productName: "Google Pixel 6",
     description:
       "The Google Pixel 6 boasts cutting-edge AI features, exceptional photo quality, and a stunning display, making it a perfect choice for Android enthusiasts.",
@@ -69,10 +69,7 @@ const About = () => {
               about
               data-testid={`about-product-card-${index}`}
             />
-          ))
-          }
-
-
+          ))}
         </div>
       </div>
     </div>

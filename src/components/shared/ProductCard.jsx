@@ -53,7 +53,7 @@ const ProductCard = ({
         data-testid={`product-image-${productId}`}
       >
         <img
-          className="w-full h-full cursor-pointer transition-transform duration-300 transform hover:scale-105"
+          className="w-full h-full object-contain cursor-pointer transition-transform duration-300 transform hover:scale-105"
           src={image}
           alt={productName}>
         </img>
