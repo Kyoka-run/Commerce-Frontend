@@ -49,7 +49,7 @@ const ProductCard = ({
             specialPrice,
           })
         }}
-        className="w-full overflow-hidden aspect-[3/2]"
+        className="w-full overflow-hidden aspect-[4/3]"
         data-testid={`product-image-${productId}`}
       >
         <img
