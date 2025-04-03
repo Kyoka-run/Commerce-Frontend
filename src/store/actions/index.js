@@ -165,7 +165,11 @@ export const addUpdateUserAddress =
     dispatch({ type: "BUTTON_LOADER" });
     try {
       if (!addressId) {
-        const { data } = await api.post("/addresses", sendData);
+        const { data } = await api.post("/addresses", sendData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+          }
+        });
       } else {
         await api.put(`/addresses/${addressId}`, sendData, {
           headers: {
