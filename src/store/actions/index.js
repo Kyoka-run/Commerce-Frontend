@@ -1,7 +1,5 @@
 import api from "../../api/api"
 
-const jwt = localStorage.getItem("jwt");
-
 export const fetchProducts = (queryString) => async (dispatch) => {
   try {
     dispatch({ type: "IS_FETCHING" });
@@ -171,7 +169,7 @@ export const addUpdateUserAddress =
       } else {
         await api.put(`/addresses/${addressId}`, sendData, {
           headers: {
-            Authorization: `Bearer ${jwt}`,
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
           },
         });
       }
@@ -194,7 +192,7 @@ export const deleteUserAddress =
       dispatch({ type: "BUTTON_LOADER" });
       await api.delete(`/addresses/${addressId}`, {
         headers: {
-          Authorization: `Bearer ${jwt}`,
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
         }
       });
       dispatch({ type: "IS_SUCCESS" });
@@ -223,7 +221,7 @@ export const getUserAddresses = () => async (dispatch, getState) => {
     dispatch({ type: "IS_FETCHING" });
     const { data } = await api.get(`/addresses`, {
       headers: {
-        Authorization: `Bearer ${jwt}`,
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       }
     });
     dispatch({ type: "USER_ADDRESS", payload: data });
@@ -260,7 +258,7 @@ export const createUserCart = (sendCartItems) => async (dispatch, getState) => {
     dispatch({ type: "IS_FETCHING" });
     await api.post('/cart/create', sendCartItems, {
       headers: {
-        Authorization: `Bearer ${jwt}`,
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       }
     });
     await dispatch(getUserCart());
@@ -279,7 +277,7 @@ export const getUserCart = () => async (dispatch, getState) => {
     dispatch({ type: "IS_FETCHING" });
     const { data } = await api.get('/carts/users/cart', {
       headers: {
-        Authorization: `Bearer ${jwt}`,
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       }
     });
 
@@ -310,7 +308,7 @@ export const createStripePaymentSecret
         "currency": "usd"
       }, {
         headers: {
-          Authorization: `Bearer ${jwt}`,
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
         }
       });
       dispatch({ type: "CLIENT_SECRET", payload: data });
@@ -328,7 +326,7 @@ export const stripePaymentConfirmation
     try {
       const response = await api.post("/order/users/payments/online", sendData, {
         headers: {
-          Authorization: `Bearer ${jwt}`,
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
         }
       });
       if (response.data) {
@@ -352,7 +350,7 @@ export const getUserOrders = () => async (dispatch) => {
     dispatch({ type: "IS_FETCHING" });
     const { data } = await api.get('/user/orders', {
       headers: {
-        Authorization: `Bearer ${jwt}`,
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       }
     });
     dispatch({
