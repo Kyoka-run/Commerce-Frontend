@@ -1,5 +1,7 @@
 import api from "../../api/api"
 
+const jwt = localStorage.getItem("jwt");
+
 export const fetchProducts = (queryString) => async (dispatch) => {
   try {
     dispatch({ type: "IS_FETCHING" });
@@ -116,7 +118,6 @@ export const removeFromCart = (data, toast) => (dispatch, getState) => {
 }
 
 
-
 export const authenticateSignInUser
   = (sendData, toast, reset, navigate, setLoader) => async (dispatch) => {
     try {
@@ -124,6 +125,7 @@ export const authenticateSignInUser
       const { data } = await api.post("/auth/signin", sendData);
       dispatch({ type: "LOGIN_USER", payload: data });
       localStorage.setItem("auth", JSON.stringify(data));
+      localStorage.setItem("jwt", data.jwtToken);
       reset();
       toast.success("Login Success");
       navigate("/");
@@ -156,6 +158,7 @@ export const registerNewUser
 export const logOutUser = (navigate) => (dispatch) => {
   dispatch({ type: "LOG_OUT" });
   localStorage.removeItem("auth");
+  localStorage.removeItem("jwt");
   navigate("/login");
 };
 
@@ -164,15 +167,13 @@ export const addUpdateUserAddress =
     dispatch({ type: "BUTTON_LOADER" });
     try {
       if (!addressId) {
-        // For debugging
-        console.log("Auth state:", getState().auth);
-        console.log("Sending address data:", sendData);
-
         const { data } = await api.post("/addresses", sendData);
-        // Check the response
-        console.log("Address creation response:", data);
       } else {
-        await api.put(`/addresses/${addressId}`, sendData);
+        await api.put(`/addresses/${addressId}`, sendData, {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        });
       }
       dispatch(getUserAddresses());
       toast.success("Address saved successfully");
@@ -191,7 +192,11 @@ export const deleteUserAddress =
   (toast, addressId, setOpenDeleteModal) => async (dispatch, getState) => {
     try {
       dispatch({ type: "BUTTON_LOADER" });
-      await api.delete(`/addresses/${addressId}`);
+      await api.delete(`/addresses/${addressId}`, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        }
+      });
       dispatch({ type: "IS_SUCCESS" });
       dispatch(getUserAddresses());
       dispatch(clearCheckoutAddress());
@@ -216,7 +221,11 @@ export const clearCheckoutAddress = () => {
 export const getUserAddresses = () => async (dispatch, getState) => {
   try {
     dispatch({ type: "IS_FETCHING" });
-    const { data } = await api.get(`/addresses`);
+    const { data } = await api.get(`/addresses`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      }
+    });
     dispatch({ type: "USER_ADDRESS", payload: data });
     dispatch({ type: "IS_SUCCESS" });
   } catch (error) {
@@ -249,7 +258,11 @@ export const addPaymentMethod = (method) => {
 export const createUserCart = (sendCartItems) => async (dispatch, getState) => {
   try {
     dispatch({ type: "IS_FETCHING" });
-    await api.post('/cart/create', sendCartItems);
+    await api.post('/cart/create', sendCartItems, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      }
+    });
     await dispatch(getUserCart());
   } catch (error) {
     console.log(error);
@@ -264,7 +277,11 @@ export const createUserCart = (sendCartItems) => async (dispatch, getState) => {
 export const getUserCart = () => async (dispatch, getState) => {
   try {
     dispatch({ type: "IS_FETCHING" });
-    const { data } = await api.get('/carts/users/cart');
+    const { data } = await api.get('/carts/users/cart', {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      }
+    });
 
     dispatch({
       type: "GET_USER_CART_PRODUCTS",
@@ -291,6 +308,10 @@ export const createStripePaymentSecret
       const { data } = await api.post("/order/stripe-client-secret", {
         "amount": Number(totalPrice) * 100,
         "currency": "usd"
+      }, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        }
       });
       dispatch({ type: "CLIENT_SECRET", payload: data });
       localStorage.setItem("client-secret", JSON.stringify(data));
@@ -305,7 +326,11 @@ export const createStripePaymentSecret
 export const stripePaymentConfirmation
   = (sendData, setErrorMesssage, setLoadng, toast) => async (dispatch, getState) => {
     try {
-      const response = await api.post("/order/users/payments/online", sendData);
+      const response = await api.post("/order/users/payments/online", sendData, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        }
+      });
       if (response.data) {
         localStorage.removeItem("CHECKOUT_ADDRESS");
         localStorage.removeItem("cartItems");
@@ -325,7 +350,11 @@ export const stripePaymentConfirmation
 export const getUserOrders = () => async (dispatch) => {
   try {
     dispatch({ type: "IS_FETCHING" });
-    const { data } = await api.get('/user/orders');
+    const { data } = await api.get('/user/orders', {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      }
+    });
     dispatch({
       type: "GET_USER_ORDERS",
       payload: data

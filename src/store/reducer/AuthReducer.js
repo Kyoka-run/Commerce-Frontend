@@ -2,6 +2,7 @@ const initialState = {
   user: null,
   address: [],
   orders: [],
+  jwt: localStorage.getItem('jwt') || null,
   clientSecret: null,
   selectedUserCheckoutAddress: null,
 }
@@ -9,7 +10,7 @@ const initialState = {
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case "LOGIN_USER":
-      return { ...state, user: action.payload };
+      return { ...state, user: action.payload, jwt: action.jwtToken };
     case "USER_ADDRESS":
       return { ...state, address: action.payload };
     case "GET_USER_ORDERS":
@@ -27,6 +28,7 @@ export const authReducer = (state = initialState, action) => {
         user: null,
         address: null,
         orders: [],
+        jwt: null,
       };
 
     default:
